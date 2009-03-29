@@ -37,6 +37,18 @@ class State(object):
 	def get_cell_content(self, cell):
 		m,n = cell
 		return self.field[m][n]
+	
+	def get_succ(self):
+		result = []
+		clear = []
+		for m,row in enumerate(self.field):
+			for n,part in enumerate(row):
+				if part == 0:
+					clear.append((m, n))
+					
+		
+		return result
+		
 
 def is_visited(state):
 	return state in VISITED
@@ -53,30 +65,17 @@ def get_neighbor_cells(cell):
 				result.append((rm,rn))
 	return result
 
-def get_succ(state):
-	result = []
-	clear = []
-	for m,row in enumerate(state):
-		for n,part in enumerate(row):
-			if part == 0:
-				clear.append((m, n))
-				
-	
-	return result
-
 		
 def print_state(state):
 	n = 0
-	for row in state:
-		sys.stdout.write(str(row) + "\n")
+	print "\n".join(map(str, state.field))
 			
 if __name__ == '__main__':
 	s = State(PUZZLE)
-	print s.__hash__()
 	
-	VISITED[PUZZLE] = True
-	print_state(PUZZLE)
-	for state in get_succ(PUZZLE):
+	VISITED[s] = True
+	print_state(s)
+	for state in s.get_succ():
 		print "----"
 		print_state(state)
 	
