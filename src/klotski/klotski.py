@@ -38,6 +38,14 @@ class State(object):
 		m,n = cell
 		return self.field[m][n]
 	
+	def get_block_cells(self, content):
+		result = []
+		for m,row in enumerate(self.field):
+			for n,cell_content in enumerate(row):
+				if cell_content == content:
+					result.append((m,n))
+		return result
+	
 	def get_succ(self):
 		result = []
 		clear = []
@@ -45,6 +53,12 @@ class State(object):
 			for n,part in enumerate(row):
 				if part == 0:
 					clear.append((m, n))
+		
+		for clear_cell in clear:
+			for neighbour_cell in get_neighbor_cells(clear_cell):
+				content = self.get_cell_content(neighbour_cell)
+				print self.get_block_cells(content)
+			
 					
 		
 		return result
