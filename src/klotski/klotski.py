@@ -32,7 +32,7 @@ class State(object):
 		return self.field.__hash__()
 	
 	def is_solution(self):
-		return False
+		return self.field[3][1] == self.field[3][2] == self.field[4][1] == self.field[4][2] == 1
 	
 	def get_cell_content(self, cell):
 		m,n = cell
