@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 import sys, string
+sys.setrecursionlimit(100000)
 
 from tools import curry
 
@@ -9,23 +10,30 @@ DIRECTIONS = ["t", "l", "r", "b"]
 M = 5
 N = 4
 
-PUZZLE = (
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(9, 0, 0, 10)
-)
 
 # easy debug puzzle
-PUZZLE = (
+"""PUZZLE = (
 	(4, 5, 5, 6),
 	(4, 7, 8, 6),
 	(2, 1, 1, 3),
 	(2, 1, 1, 3),
 	(9, 0, 0, 10)
-)
+)"""
 
+PUZZLE = (
+	(4, 5, 5, 6),
+	(4, 7, 8, 6),
+	(2, 1, 1, 3),
+	(2, 1, 1, 3),
+	(0, 0, 9, 10)
+)
+PUZZLE = (
+	(2, 1, 1, 3),
+	(2, 1, 1, 3),
+	(4, 5, 5, 6),
+	(4, 7, 8, 6),
+	(9, 0, 0, 10)
+)
 
 VISITED = {}
 
@@ -144,13 +152,15 @@ def get_neighbor_cells(cell):
 					result[field] = None
 	return result
 
+def walk_solutions(init_state):
+	for state in init_state.get_succ():
+		if state.is_solution():
+			print state
+			sys.exit(0)
+		elif state not in VISITED:
+			VISITED[state] = True
+			walk_solutions(state)
 		
 if __name__ == '__main__':
 	s = State(PUZZLE)
-	
-	VISITED[s] = True
-	print s
-	for state in s.get_succ():
-		print "----"
-		print state
-	
+	walk_solutions(s)
