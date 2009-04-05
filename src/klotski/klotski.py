@@ -4,21 +4,12 @@ import sys, string
 sys.setrecursionlimit(100000)
 
 from tools import curry
+from Stack import Stack
 
 DIRECTIONS = ["t", "l", "r", "b"]
 
 M = 5
 N = 4
-
-
-# easy debug puzzle
-"""PUZZLE = (
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(9, 0, 0, 10)
-)"""
 
 PUZZLE = (
 	(4, 5, 5, 6),
@@ -32,6 +23,16 @@ PUZZLE = (
 	(2, 1, 1, 3),
 	(4, 5, 5, 6),
 	(4, 7, 8, 6),
+	(9, 0, 0, 10)
+)
+
+
+# easy debug puzzle
+PUZZLE = (
+	(4, 5, 5, 6),
+	(4, 7, 8, 6),
+	(2, 1, 1, 3),
+	(2, 1, 1, 3),
 	(9, 0, 0, 10)
 )
 
@@ -153,14 +154,16 @@ def get_neighbor_cells(cell):
 	return result
 
 def walk_solutions(init_state):
-	for state in init_state.get_succ():
-		if state.is_solution():
-			print state
-			sys.exit(0)
-		elif state not in VISITED:
-			VISITED[state] = True
-			walk_solutions(state)
+	s = Stack()
+	s.push(init_state)
+	while s.count > 0:
+		if s not in VISITED:
+			VISITED[s] = True
+			
+			
 		
 if __name__ == '__main__':
 	s = State(PUZZLE)
+	print s
+	print "..."
 	walk_solutions(s)
