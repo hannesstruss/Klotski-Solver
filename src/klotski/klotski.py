@@ -97,10 +97,18 @@ class State(object):
 		result_cells = []
 		state = map(list, self.field)
 		
-		if direction == "b":
-			for m,n in cells:
-				result_cells.append((m+1, n))
-				state[m+1][n] = content
+		for m,n in cells:
+			if direction == "b":
+				m_, n_ = m+1, n
+			elif direction == "t":
+				m_, n_ = m-1, n
+			elif direction == "l":
+				m_, n_ = m, n-1
+			elif direction == "r":
+				m_, n_ = m, n+1
+			
+			result_cells.append((m_, n_))
+			state[m_][n_] = content
 				
 		for m,n in set(cells) - set(result_cells):
 			state[m][n] = 0
