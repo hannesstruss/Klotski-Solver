@@ -4,6 +4,8 @@ import sys, string
 
 from tools import curry
 
+DIRECTIONS = ["t", "l", "r", "b"]
+
 M = 5
 N = 4
 
@@ -30,6 +32,10 @@ VISITED = {}
 class State(object):
 	def __init__(self, field):
 		self.field = field
+		self.block_kinds = 0
+		for row in self.field:
+			for content in row:
+				self.block_kinds = max(content, self.block_kinds)
 	
 	def __eq__(self, other):
 		return self.field == other.field
@@ -56,24 +62,38 @@ class State(object):
 					result.append((m,n))
 		return result
 	
+	def get_movable_directions_of_block(self, content):
+		directions = set(DIRECTIONS)
+		for cell in self.get_block_cells(content):
+			directions = directions & self.get_movable_directions_of_cell(cell)
+		return directions
+	
+	def get_movable_directions_of_cell(self, cell):
+		"""return a set of directions in which 'cell' could be moved"""
+		directions = set(DIRECTIONS)
+		cell_content = self.get_cell_content(cell)
+		for direction, neighbor in get_neighbor_cells(cell).iteritems():
+			if neighbor is not None:
+				neighbor_content = self.get_cell_content(neighbor) 
+				if not (neighbor_content == cell_content or neighbor_content == 0):
+					directions.remove(direction)
+			else: 
+				directions.remove(direction)
+		return directions
+	
 	def get_movable_blocks(self):
 		result = []
-		clear = []
 		
-		# collect 'clear' cells
-		for m,row in enumerate(self.field):
-			for n,part in enumerate(row):
-				if part == 0:
-					clear.append((m, n))
-		
-		#collect blocks that have 
-		for clear_cell in clear:
-			print clear_cell, get_neighbor_cells(clear_cell)
-	
+		for i in xrange(1, self.block_kinds + 1):
+			directions = self.get_movable_directions_of_block(i)
+			if directions:
+				result.append((i, directions))
+		return result
+				
 	def get_succ(self):
 		result = []
 				
-		self.get_movable_blocks()
+		print self.get_movable_blocks()
 		
 		return result
 		
@@ -81,7 +101,7 @@ def is_visited(state):
 	return state in VISITED
 
 def get_neighbor_cells(cell):
-	fields = ["t", "l", "r", "b"]
+	fields = DIRECTIONS[:]
 	result = {}
 	m,n = cell
 	for rm in xrange(m-1, m+2):
