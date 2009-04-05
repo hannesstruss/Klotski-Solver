@@ -31,7 +31,7 @@ VISITED = {}
 
 class State(object):
 	def __init__(self, field):
-		self.field = field
+		self.field = tuple(map(tuple, field))
 		self.blocks = {}
 		self.block_kinds = 0
 		for m, row in enumerate(self.field):
@@ -50,6 +50,9 @@ class State(object):
 	def __hash__(self):
 		return self.field.__hash__()
 	
+	def __str__(self):
+		return "\n".join(map(str, self.field))		
+	
 	def is_solution(self):
 		return self.field[3][1] == self.field[3][2] == self.field[4][1] == self.field[4][2] == 1
 	
@@ -59,7 +62,7 @@ class State(object):
 	
 	def get_block_cells(self, content):
 		"""return all cells whose content is 'content'"""
-		return self.blocks.get(content, [])
+		return self.blocks.get(content, [])[:]
 	
 	def get_movable_directions_of_block(self, content):
 		directions = set(DIRECTIONS)
@@ -88,12 +91,32 @@ class State(object):
 			if directions:
 				result.append((i, directions))
 		return result
+	
+	def move_block(self, direction, content):
+		cells = self.get_block_cells(content)
+		result_cells = []
+		state = map(list, self.field)
+		
+		if direction == "b":
+			for m,n in cells:
+				result_cells.append((m+1, n))
+				state[m+1][n] = content
+				
+		for m,n in set(cells) - set(result_cells):
+			state[m][n] = 0
+		
+		return State(state)
+		
 				
 	def get_succ(self):
 		result = []
 				
 		movable_blocks = self.get_movable_blocks()
-		print movable_blocks
+		#print movable_blocks
+		
+		print self.move_block("b", 1)
+		
+		#print self.blocks
 		
 		return result
 		
@@ -116,16 +139,13 @@ def get_neighbor_cells(cell):
 	return result
 
 		
-def print_state(state):
-	n = 0
-	print "\n".join(map(str, state.field))
-			
 if __name__ == '__main__':
 	s = State(PUZZLE)
 	
 	VISITED[s] = True
-	print_state(s)
+	print s
+	print "---"
 	for state in s.get_succ():
 		print "----"
-		print_state(state)
+		print state
 	
