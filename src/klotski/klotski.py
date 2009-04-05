@@ -120,11 +120,9 @@ class State(object):
 		result = []
 				
 		movable_blocks = self.get_movable_blocks()
-		#print movable_blocks
-		
-		print self.move_block("b", 1)
-		
-		#print self.blocks
+		for content,directions in movable_blocks:
+			for direction in directions:
+				result.append(self.move_block(direction, content))
 		
 		return result
 		
@@ -152,7 +150,6 @@ if __name__ == '__main__':
 	
 	VISITED[s] = True
 	print s
-	print "---"
 	for state in s.get_succ():
 		print "----"
 		print state
