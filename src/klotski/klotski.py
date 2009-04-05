@@ -32,10 +32,14 @@ VISITED = {}
 class State(object):
 	def __init__(self, field):
 		self.field = field
+		self.blocks = {}
 		self.block_kinds = 0
-		for row in self.field:
-			for content in row:
+		for m, row in enumerate(self.field):
+			for n, content in enumerate(row):
 				self.block_kinds = max(content, self.block_kinds)
+				if content not in self.blocks:
+					self.blocks[content] = []
+				self.blocks[content].append((m, n))
 	
 	def __eq__(self, other):
 		return self.field == other.field
@@ -55,12 +59,7 @@ class State(object):
 	
 	def get_block_cells(self, content):
 		"""return all cells whose content is 'content'"""
-		result = []
-		for m,row in enumerate(self.field):
-			for n,cell_content in enumerate(row):
-				if cell_content == content:
-					result.append((m,n))
-		return result
+		return self.blocks.get(content, [])
 	
 	def get_movable_directions_of_block(self, content):
 		directions = set(DIRECTIONS)
@@ -93,7 +92,8 @@ class State(object):
 	def get_succ(self):
 		result = []
 				
-		print self.get_movable_blocks()
+		movable_blocks = self.get_movable_blocks()
+		print movable_blocks
 		
 		return result
 		
