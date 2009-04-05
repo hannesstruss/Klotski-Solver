@@ -18,15 +18,6 @@ PUZZLE = (
 	(2, 1, 1, 3),
 	(0, 0, 9, 10)
 )
-PUZZLE = (
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(9, 0, 0, 10)
-)
-
-
 # easy debug puzzle
 PUZZLE = (
 	(4, 5, 5, 6),
@@ -35,6 +26,15 @@ PUZZLE = (
 	(2, 1, 1, 3),
 	(9, 0, 0, 10)
 )
+PUZZLE = (
+	(2, 1, 1, 3),
+	(2, 1, 1, 3),
+	(4, 5, 5, 6),
+	(4, 7, 8, 6),
+	(9, 0, 0, 10)
+)
+
+
 
 VISITED = {}
 
@@ -157,8 +157,16 @@ def walk_solutions(init_state):
 	s = Stack()
 	s.push(init_state)
 	while s.count > 0:
-		if s not in VISITED:
-			VISITED[s] = True
+		node = s.pop()
+		if node not in VISITED:
+			VISITED[node] = True
+			for child in node.get_succ():
+				s.push(child)
+				if child.is_solution():
+					print child
+					print s.count
+					print "..."
+					#sys.exit()
 			
 			
 		
