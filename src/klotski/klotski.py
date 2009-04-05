@@ -56,17 +56,24 @@ class State(object):
 					result.append((m,n))
 		return result
 	
-	def get_succ(self):
+	def get_movable_blocks(self):
 		result = []
 		clear = []
+		
+		# collect 'clear' cells
 		for m,row in enumerate(self.field):
 			for n,part in enumerate(row):
 				if part == 0:
 					clear.append((m, n))
 		
+		#collect blocks that have 
 		for clear_cell in clear:
 			print clear_cell, get_neighbor_cells(clear_cell)
+	
+	def get_succ(self):
+		result = []
 				
+		self.get_movable_blocks()
 		
 		return result
 		
@@ -84,6 +91,8 @@ def get_neighbor_cells(cell):
 				fields = fields[1:]
 				if rm >= 0 and rm < M and rn >= 0 and rn < N:
 					result[field] = (rm,rn)
+				else:
+					result[field] = None
 	return result
 
 		
