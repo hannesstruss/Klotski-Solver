@@ -15,6 +15,15 @@ PUZZLE = (
 	(9, 0, 0, 10)
 )
 
+# easy debug puzzle
+PUZZLE = (
+	(4, 5, 5, 6),
+	(4, 7, 8, 6),
+	(2, 1, 1, 3),
+	(2, 1, 1, 3),
+	(9, 0, 0, 10)
+)
+
 
 VISITED = {}
 
@@ -39,6 +48,7 @@ class State(object):
 		return self.field[m][n]
 	
 	def get_block_cells(self, content):
+		"""return all cells whose content is 'content'"""
 		result = []
 		for m,row in enumerate(self.field):
 			for n,cell_content in enumerate(row):
@@ -55,28 +65,25 @@ class State(object):
 					clear.append((m, n))
 		
 		for clear_cell in clear:
-			for neighbour_cell in get_neighbor_cells(clear_cell):
-				content = self.get_cell_content(neighbour_cell)
-				print self.get_block_cells(content)
-			
-					
+			print clear_cell, get_neighbor_cells(clear_cell)
+				
 		
 		return result
 		
-
 def is_visited(state):
 	return state in VISITED
 
-def is_solution(state):
-	return state[14] == state[13] == state[18] == state[17] == "X"
-
 def get_neighbor_cells(cell):
-	result = []
+	fields = ["t", "l", "r", "b"]
+	result = {}
 	m,n = cell
 	for rm in xrange(m-1, m+2):
 		for rn in xrange(n-1, n+2):
-			if rm >= 0 and rm < M and rn >= 0 and rn < N and ((rm == m) ^ (rn == n)):
-				result.append((rm,rn))
+			if ((rm == m) ^ (rn == n)):
+				field = fields[0]
+				fields = fields[1:]
+				if rm >= 0 and rm < M and rn >= 0 and rn < N:
+					result[field] = (rm,rn)
 	return result
 
 		
