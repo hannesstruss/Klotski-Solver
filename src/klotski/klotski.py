@@ -26,6 +26,16 @@ PUZZLE = (
 	(2, 1, 1, 3),
 	(9, 0, 0, 10)
 )
+
+PUZZLE = (
+	(0, 1, 1, 0),
+	(0, 1, 1, 0),
+	(0, 0, 0, 0),
+	(0, 0, 0, 0),
+	(0, 0, 0, 0)
+)
+
+#original
 PUZZLE = (
 	(2, 1, 1, 3),
 	(2, 1, 1, 3),
@@ -33,7 +43,6 @@ PUZZLE = (
 	(4, 7, 8, 6),
 	(9, 0, 0, 10)
 )
-
 
 
 VISITED = {}
@@ -158,15 +167,14 @@ def walk_solutions(init_state):
 	s.push(init_state)
 	while s.count > 0:
 		node = s.pop()
-		if node not in VISITED:
-			VISITED[node] = True
-			for child in node.get_succ():
+		for child in node.get_succ():
+			if child not in VISITED:
+				VISITED[child] = True
 				s.push(child)
 				if child.is_solution():
-					print child
 					print s.count
-					print "..."
-					#sys.exit()
+					print child
+					sys.exit()
 			
 			
 		
