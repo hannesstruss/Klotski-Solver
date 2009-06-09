@@ -1,25 +1,17 @@
 # -*- encoding: utf-8 -*-
 
 import sys, string
-sys.setrecursionlimit(100000)
 
 from tools import curry
 from Stack import Stack
+from MyQueue import Queue
 
 DIRECTIONS = ["t", "l", "r", "b"]
 
 M = 5
 N = 4
-
-PUZZLE = (
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(0, 0, 9, 10)
-)
 # easy debug puzzle
-PUZZLE = (
+pz_debug = (
 	(4, 5, 5, 6),
 	(4, 7, 8, 6),
 	(2, 1, 1, 3),
@@ -27,7 +19,7 @@ PUZZLE = (
 	(9, 0, 0, 10)
 )
 
-PUZZLE = (
+pz_trivial = (
 	(0, 1, 1, 0),
 	(0, 1, 1, 0),
 	(0, 0, 0, 0),
@@ -35,8 +27,16 @@ PUZZLE = (
 	(0, 0, 0, 0)
 )
 
+pz_huh = (
+	(4, 5, 5, 6),
+	(4, 7, 8, 6),
+	(2, 1, 1, 3),
+	(2, 1, 1, 3),
+	(0, 0, 9, 10)
+)
+
 #original
-PUZZLE = (
+pz_red_donkey = (
 	(2, 1, 1, 3),
 	(2, 1, 1, 3),
 	(4, 5, 5, 6),
@@ -44,6 +44,7 @@ PUZZLE = (
 	(9, 0, 0, 10)
 )
 
+PUZZLE = pz_huh
 
 VISITED = {}
 
@@ -163,8 +164,7 @@ def get_neighbor_cells(cell):
 	return result
 
 def walk_solutions(init_state):
-	s = Stack()
-	s.push(init_state)
+	s = Queue(init_state)
 	while s.count > 0:
 		node = s.pop()
 		for child in node.get_succ():
