@@ -44,7 +44,7 @@ pz_red_donkey = (
 	(9, 0, 0, 10)
 )
 
-PUZZLE = pz_huh
+PUZZLE = pz_red_donkey
 
 VISITED = {}
 
@@ -165,12 +165,18 @@ def get_neighbor_cells(cell):
 
 def walk_solutions(init_state):
 	s = Queue(init_state)
+	generated = 0
+	outputted = 0
 	while s.count > 0:
+		if generated - outputted > 10000:
+			print generated
+			outputted = generated
 		node = s.pop()
 		for child in node.get_succ():
 			if child not in VISITED:
 				VISITED[child] = True
 				s.push(child)
+				generated += 1
 				if child.is_solution():
 					print s.count
 					print child
