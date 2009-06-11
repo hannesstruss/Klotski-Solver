@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-import sys, string
+import sys, string, time
 
 from tools import curry
 from Stack import Stack
@@ -12,7 +12,7 @@ M = 5
 N = 4
 import puzzles
 
-PUZZLE = puzzles.red_donkey
+PUZZLE = puzzles.only_18
 
 VISITED = {}
 
@@ -21,6 +21,7 @@ class State(object):
 		self.field = tuple(map(tuple, field))
 		self.blocks = {}
 		self.block_kinds = 0
+		self.parent = None
 		for m, row in enumerate(self.field):
 			for n, content in enumerate(row):
 				self.block_kinds = max(content, self.block_kinds)
@@ -50,6 +51,14 @@ class State(object):
 	def get_block_cells(self, content):
 		"""return all cells whose content is 'content'"""
 		return self.blocks.get(content, [])[:]
+	
+	def get_depth(self):
+		depth = 1
+		parent = self.parent
+		while parent is not None:
+			depth += 1
+			parent = parent.parent
+		return depth
 	
 	def get_movable_directions_of_block(self, content):
 		directions = set(DIRECTIONS)
@@ -109,7 +118,9 @@ class State(object):
 		movable_blocks = self.get_movable_blocks()
 		for content,directions in movable_blocks:
 			for direction in directions:
-				result.append(self.move_block(direction, content))
+				result_state = self.move_block(direction, content)
+				result_state.parent = self
+				result.append(result_state)
 		
 		return result
 		
@@ -135,20 +146,35 @@ def walk_solutions(init_state):
 	s = Queue(init_state)
 	generated = 0
 	outputted = 0
-	while s.count > 0:
-		if generated - outputted > 10000:
-			print generated
-			outputted = generated
-		node = s.pop()
-		for child in node.get_succ():
-			if child not in VISITED:
-				VISITED[child] = True
-				s.push(child)
-				generated += 1
-				if child.is_solution():
-					print s.count
-					print child
-					sys.exit()
+	current_time = time.time()
+	solutions = []
+	try:
+		while s.count > 0:
+			if generated - outputted > 10000:
+				print generated
+				tdiff = (time.time() - current_time) * 1000 / (generated - outputted)
+				current_time = time.time()
+				print "time per state: %sms" % tdiff
+				outputted = generated
+			node = s.pop()
+			for child in node.get_succ():
+				if child not in VISITED:
+					VISITED[child] = True
+					s.push(child)
+					generated += 1
+					if child.is_solution():
+						solutions.append(child)
+						print child
+	except KeyboardInterrupt:
+		print
+		print "interrupted..."
+	finally:
+		print
+		print "solutions:"
+		for solution in solutions:
+			print "depth", solution.get_depth()
+			print solution
+			print
 			
 			
 		
