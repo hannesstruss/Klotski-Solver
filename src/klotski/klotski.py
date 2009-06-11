@@ -171,11 +171,13 @@ def walk_solutions(init_state):
 			for child in node.get_succ():
 				if child not in VISITED:
 					VISITED[child] = True
-					s.push(child)
 					generated += 1
 					if child.is_solution():
 						solutions.append(child)
 						print child
+						print
+					else:
+						s.push(child)
 	except KeyboardInterrupt:
 		print
 		print "interrupted..."
