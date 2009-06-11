@@ -30,16 +30,27 @@ class State(object):
 				self.blocks[content].append((m, n))
 	
 	def __eq__(self, other):
-		return self.field == other.field
+		return hash(other) == hash(self)
 	
 	def __ne__(self, other):
 		return not self.__eq__(other)
 	
 	def __hash__(self):
-		return self.field.__hash__()
+		rslt = ""
+		
+		content_map = {}
+		use_content = 0
+		for m, row in enumerate(self.field):
+			for n, content in enumerate(row):
+				if content not in content_map:
+					content_map[content] = use_content
+					use_content += 1
+				rslt += str(content_map[content])
+		
+		return rslt.__hash__()
 	
 	def __str__(self):
-		return "\n".join(map(str, self.field))		
+		return "\n".join(map(str, self.field))
 	
 	def is_solution(self):
 		return self.field[3][1] == self.field[3][2] == self.field[4][1] == self.field[4][2] == 1
