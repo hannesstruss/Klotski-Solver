@@ -12,10 +12,6 @@ M = 5
 N = 4
 import puzzles
 
-PUZZLE = puzzles.only_18
-
-VISITED = {}
-
 class State(object):
 	def __init__(self, field):
 		self.field = tuple(map(tuple, field))
@@ -159,6 +155,7 @@ def walk_solutions(init_state):
 	outputted = 0
 	current_time = time.time()
 	solutions = []
+	visited = {}
 	try:
 		while s.count > 0:
 			if generated - outputted > 10000:
@@ -169,8 +166,8 @@ def walk_solutions(init_state):
 				outputted = generated
 			node = s.pop()
 			for child in node.get_succ():
-				if child not in VISITED:
-					VISITED[child] = True
+				if child not in visited:
+					visited[child] = True
 					generated += 1
 					if child.is_solution():
 						solutions.append(child)
@@ -183,6 +180,7 @@ def walk_solutions(init_state):
 		print "interrupted..."
 	finally:
 		print
+		print "processed", generated
 		print "solutions:"
 		for solution in solutions:
 			print "depth", solution.get_depth()
@@ -192,7 +190,7 @@ def walk_solutions(init_state):
 			
 		
 if __name__ == '__main__':
-	s = State(PUZZLE)
+	s = State(puzzles.red_donkey)
 	print s
 	print "..."
 	walk_solutions(s)
