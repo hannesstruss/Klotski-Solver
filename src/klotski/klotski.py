@@ -10,41 +10,9 @@ DIRECTIONS = ["t", "l", "r", "b"]
 
 M = 5
 N = 4
-# easy debug puzzle
-pz_debug = (
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(9, 0, 0, 10)
-)
+import puzzles
 
-pz_trivial = (
-	(0, 1, 1, 0),
-	(0, 1, 1, 0),
-	(0, 0, 0, 0),
-	(0, 0, 0, 0),
-	(0, 0, 0, 0)
-)
-
-pz_huh = (
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(0, 0, 9, 10)
-)
-
-#original
-pz_red_donkey = (
-	(2, 1, 1, 3),
-	(2, 1, 1, 3),
-	(4, 5, 5, 6),
-	(4, 7, 8, 6),
-	(9, 0, 0, 10)
-)
-
-PUZZLE = pz_red_donkey
+PUZZLE = puzzles.red_donkey
 
 VISITED = {}
 
