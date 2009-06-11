@@ -5,12 +5,12 @@ import sys, string, time
 from tools import curry
 from Stack import Stack
 from MyQueue import Queue
+import puzzles
 
 DIRECTIONS = ["t", "l", "r", "b"]
 
 M = 5
 N = 4
-import puzzles
 
 class State(object):
 	def __init__(self, field):
