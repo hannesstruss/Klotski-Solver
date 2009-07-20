@@ -27,6 +27,7 @@ other = (
 	(4, 0, 0, 0),
 	(4, 0, 0, 0)
 )
+	
 
 class TestHashCode(unittest.TestCase):
 	def testhash(self):

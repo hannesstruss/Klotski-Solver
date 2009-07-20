@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 class Stack(object):
-	def __init__(self):
+	def __init__(self, init_state):
 		self.__top = None
 		self.count = 0
+		self.push(init_state)
 		
 	def push(self, item):
 		i = StackItem(item)

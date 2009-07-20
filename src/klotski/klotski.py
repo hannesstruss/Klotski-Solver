@@ -165,16 +165,25 @@ def walk_solutions(init_state):
 				print "time per state: %sms" % tdiff
 				outputted = generated
 			node = s.pop()
-			for child in node.get_succ():
+			
+			succs = node.get_succ()
+			for child in succs:
 				if child not in visited:
-					visited[child] = True
+					visited[child] = child
 					generated += 1
 					if child.is_solution():
 						solutions.append(child)
+						print "SOLUTION"
 						print child
 						print
 					else:
 						s.push(child)
+				else:
+					other = visited[child]
+					r = test_if_states_are_equivalent(child, other)
+					if r:
+						print r 
+					
 	except KeyboardInterrupt:
 		print
 		print "interrupted..."
@@ -186,11 +195,13 @@ def walk_solutions(init_state):
 			print "depth", solution.get_depth()
 			print solution
 			print
-			
+
+def test_if_states_are_equivalent(state1, state2):
+	pass
 			
 		
 if __name__ == '__main__':
-	s = State(puzzles.red_donkey)
+	s = State(puzzles.trail)
 	print s
 	print "..."
 	walk_solutions(s)
