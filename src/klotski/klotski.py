@@ -16,11 +16,9 @@ class State(object):
 	def __init__(self, field):
 		self.field = tuple(map(tuple, field))
 		self.blocks = {}
-		self.block_kinds = 0
 		self.parent = None
 		for m, row in enumerate(self.field):
 			for n, cell_content in enumerate(row):
-				self.block_kinds = max(cell_content, self.block_kinds)
 				if cell_content not in self.blocks:
 					self.blocks[cell_content] = []
 				self.blocks[cell_content].append((m, n))
@@ -89,7 +87,7 @@ class State(object):
 	def get_movable_blocks(self):
 		result = []
 		
-		for i in xrange(1, self.block_kinds + 1):
+		for i in xrange(1, len(self.blocks) + 1):
 			directions = self.get_movable_directions_of_block(i)
 			if directions:
 				result.append((i, directions))
@@ -131,9 +129,6 @@ class State(object):
 		
 		return result
 		
-def is_visited(state):
-	return state in VISITED
-
 def get_neighbor_cells(cell):
 	fields = DIRECTIONS[:]
 	result = {}
