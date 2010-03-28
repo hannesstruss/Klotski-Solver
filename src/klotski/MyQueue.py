@@ -20,6 +20,9 @@ class Queue(object):
 		self.__last = self.__last.prev 
 		self.count -= 1
 		return i.data
+	
+	def __len__(self):
+		return self.count
 
 class QueueItem(object):
 	def __init__(self, data):

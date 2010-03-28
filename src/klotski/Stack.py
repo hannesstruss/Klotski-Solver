@@ -21,6 +21,9 @@ class Stack(object):
 	def peak(self):
 		return self.__top.data
 	
+	def __len__(self):
+		return self.count
+	
 class StackItem(object):
 	def __init__(self, data):
 		self.data = data

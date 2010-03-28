@@ -116,6 +116,22 @@ class Fields(object):
 		(0, 0, 4, 4),
 		(1, 1, 0, 0)
 	)
+	
+	only_18_equi1 = (
+		(2, 1, 1, 3),
+		(4, 1, 1, 5),
+		(6, 7, 8, 9),
+		(10, 0, 0, 13),
+		(14, 11, 12, 15)
+	)
+	
+	only_18_equi2 = (
+		(2, 1, 1, 3),
+		(4, 1, 1, 5),
+		(6, 7, 8, 9),
+		(10, 0, 0, 13),
+		(14, 11, 12, 15)
+	)
 
 class TestState(unittest.TestCase):
 	def test_init(self):
@@ -177,6 +193,12 @@ class TestState(unittest.TestCase):
 		s7 = State(Fields.equi)
 		s8 = State(Fields.equi_alt)
 		self.assertEqual(s7, s8)
+		
+		a_set = set()
+		s9 = State(Fields.only_18_equi1)
+		s10 = State(Fields.only_18_equi2)
+		a_set.add(s9)
+		self.assertTrue(s10 in a_set)
 		
 		
 if __name__ == '__main__':

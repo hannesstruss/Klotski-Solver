@@ -8,6 +8,7 @@ import puzzles
 
 DIRECTIONS = ["u", "l", "r", "d"]
 
+# dont change, code isn't completely dynamic yet
 M = 5
 N = 4
 
@@ -129,6 +130,23 @@ class State(object):
 				result.append(result_state)
 		
 		return result
+	
+	def get_ancestors_num(self):
+		result = 0
+		s = self
+		while s.parent is not None:
+			result += 1
+			s = s.parent
+		return result
+	
+	def get_ancestry_str(self):
+		result = ""
+		s = self
+		while s is not None:
+			result += str(s) + "\n\n"
+			s = s.parent
+		return result
+		
 		
 def get_neighbor_cells(cell):
 	fields = DIRECTIONS[:]
@@ -146,56 +164,37 @@ def get_neighbor_cells(cell):
 	return result
 
 def walk_solutions(init_state):
-	s = Queue(init_state)
-	generated = 0
-	outputted = 0
-	current_time = time.time()
+	s = Stack(init_state)
+	visited = set()
 	solutions = []
-	visited = {}
 	try:
-		while s.count > 0:
-			if generated - outputted > 10000:
-				print generated
-				tdiff = (time.time() - current_time) * 1000 / (generated - outputted)
-				current_time = time.time()
-				print "time per state: %sms" % tdiff
-				outputted = generated
-			node = s.pop()
-			
-			succs = node.get_succ()
-			for child in succs:
-				if child not in visited:
-					visited[child] = child
-					generated += 1
-					if child.is_solution():
-						solutions.append(child)
-						print "SOLUTION"
-						print child
-						print
-					else:
-						s.push(child)
-				else:
-					other = visited[child]
-					r = test_if_states_are_equivalent(child, other)
-					if r:
-						print r 
-					
+		while len(s) > 0:
+			state = s.pop()
+			if state.is_solution():
+				solutions.append(state)
+				print "solutions:", len(solutions)
+			else:
+				for succ in state.get_succ():
+					if succ not in visited:
+						s.push(succ)
+			visited.add(state)
+				
 	except KeyboardInterrupt:
-		print
-		print "interrupted..."
-	finally:
-		print
-		print "processed", generated
-		print "solutions:"
-		for solution in solutions:
-			print "depth", solution.get_depth()
-			print solution
-			print
-
+		print "interrupted"
+		
+	for solution in solutions:
+		print "#####################"
+		print solution.get_ancestors_num()
+		print solution.get_ancestry_str()
+		print "#####################\n\n"
+	
+	print "visited:", len(visited)
+		
+	
 def test_if_states_are_equivalent(state1, state2):
 	pass
 			
 		
 if __name__ == '__main__':
-	s = State(puzzles.trivial)
+	s = State(puzzles.only_18)
 	walk_solutions(s)
