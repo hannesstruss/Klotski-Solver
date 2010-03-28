@@ -6,7 +6,7 @@ from Stack import Stack
 from MyQueue import Queue
 import puzzles
 
-DIRECTIONS = ["t", "l", "r", "b"]
+DIRECTIONS = ["u", "l", "r", "d"]
 
 M = 5
 N = 4
@@ -100,9 +100,9 @@ class State(object):
 		state = map(list, self.field)
 		
 		for m,n in cells:
-			if direction == "b":
+			if direction == "d":
 				m_, n_ = m+1, n
-			elif direction == "t":
+			elif direction == "u":
 				m_, n_ = m-1, n
 			elif direction == "l":
 				m_, n_ = m, n-1
