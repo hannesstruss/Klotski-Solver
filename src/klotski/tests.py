@@ -3,6 +3,7 @@ from operator import attrgetter
 import unittest
 
 from klotski import State
+from MyQueue import Queue
 
 class Fields(object):
 	trivial = (
@@ -199,6 +200,26 @@ class TestState(unittest.TestCase):
 		s10 = State(Fields.only_18_equi2)
 		a_set.add(s9)
 		self.assertTrue(s10 in a_set)
+		
+
+class QueueTest(unittest.TestCase):
+	def test_queue(self):
+		s = State(Fields.only_18_equi1)
+		q = Queue(s)
+		
+		self.assertEqual(len(q), 1)
+		
+		s_pop = q.pop()
+		self.assertEqual(s, s_pop)
+		self.assertEqual(len(q), 0)
+		
+		q.pop()
+		self.assertEqual(len(q), 0)
+		
+		q.push(s)
+		self.assertEqual(q.pop(), s)
+		self.assertEqual(q.pop(), None)
+		
 		
 		
 if __name__ == '__main__':
