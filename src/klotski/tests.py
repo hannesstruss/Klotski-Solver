@@ -11,14 +11,77 @@ class Fields(object):
 		(0, 0, 0, 0),
 		(0, 0, 0, 0)
 	)
+	
+	trivial2 = (
+		(1, 1, 0, 0),
+		(1, 1, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
+	trivial3 = (
+		(0, 0, 1, 1),
+		(0, 0, 1, 1),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
+	trivial4 = (
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 1, 1),
+		(0, 0, 1, 1)
+	)
+	
+	blocked1 = (
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 2),
+		(0, 0, 1, 1),
+		(0, 3, 1, 1)
+	)
+	
+	blocked2 = (
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+	)
 
 class TestState(unittest.TestCase):
 	def test_init(self):
 		s = State(Fields.trivial)
-		
 		self.assertEqual(len(s.blocks), 1)
 		self.assertEqual(s.field, Fields.trivial)
 		
+		s = State(Fields.blocked1)
+		self.assertEqual(len(s.blocks), 3)
+		
+		s = State(Fields.blocked2)
+		self.assertEqual(len(s.blocks), 1)
+		
+	def test_get_movable_directions_of_block(self):
+		s = State(Fields.trivial)
+		self.assertEqual(s.get_movable_directions_of_block(1), set(["r", "l", "d"]))
+		
+		s = State(Fields.trivial2) 
+		self.assertEqual(s.get_movable_directions_of_block(1), set(["r", "d"]))
+		
+		s = State(Fields.trivial3) 
+		self.assertEqual(s.get_movable_directions_of_block(1), set(["l", "d"]))
+		
+		s = State(Fields.trivial4) 
+		self.assertEqual(s.get_movable_directions_of_block(1), set(["l", "u"]))
+		
+		s = State(Fields.blocked1)
+		self.assertEqual(s.get_movable_directions_of_block(1), set([]))
+		
+		s = State(Fields.blocked2)
+		self.assertEqual(s.get_movable_directions_of_block(1), set([]))
 		
 if __name__ == '__main__':
 	unittest.main()
