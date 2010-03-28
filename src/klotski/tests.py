@@ -1,4 +1,5 @@
-from calendar import main
+from operator import attrgetter
+
 import unittest
 
 from klotski import State
@@ -24,6 +25,14 @@ class Fields(object):
 		(0, 0, 1, 1),
 		(0, 0, 1, 1),
 		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
+	trivial5 = (
+		(0, 0, 0, 0),
+		(0, 1, 1, 0),
+		(0, 1, 1, 0),
 		(0, 0, 0, 0),
 		(0, 0, 0, 0)
 	)
@@ -82,6 +91,13 @@ class TestState(unittest.TestCase):
 		
 		s = State(Fields.blocked2)
 		self.assertEqual(s.get_movable_directions_of_block(1), set([]))
+		
+	def test_get_succ(self):
+		s = State(Fields.trivial)
+		succ_fields = set(map(attrgetter("field"), s.get_succ()))
+		self.assertEqual(succ_fields,
+			set([Fields.trivial2, Fields.trivial3, Fields.trivial5]))
+		
 		
 if __name__ == '__main__':
 	unittest.main()
