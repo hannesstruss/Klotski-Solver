@@ -19,11 +19,11 @@ class State(object):
 		self.block_kinds = 0
 		self.parent = None
 		for m, row in enumerate(self.field):
-			for n, content in enumerate(row):
-				self.block_kinds = max(content, self.block_kinds)
-				if content not in self.blocks:
-					self.blocks[content] = []
-				self.blocks[content].append((m, n))
+			for n, cell_content in enumerate(row):
+				self.block_kinds = max(cell_content, self.block_kinds)
+				if cell_content not in self.blocks:
+					self.blocks[cell_content] = []
+				self.blocks[cell_content].append((m, n))
 	
 	def __eq__(self, other):
 		return hash(other) == hash(self)
