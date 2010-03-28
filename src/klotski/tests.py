@@ -1,3 +1,4 @@
+from calendar import main
 import unittest
 
 from klotski import State
@@ -13,3 +14,6 @@ class TestState(unittest.TestCase):
 		))
 		
 		self.assertEqual(len(s.blocks), 1)
+		
+if __name__ == '__main__':
+	unittest.main()
