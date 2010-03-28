@@ -13,6 +13,14 @@ class Fields(object):
 		(0, 0, 0, 0)
 	)
 	
+	trivial_alt = (
+		(0, 2, 2, 0),
+		(0, 2, 2, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
 	trivial2 = (
 		(1, 1, 0, 0),
 		(1, 1, 0, 0),
@@ -69,6 +77,14 @@ class Fields(object):
 		(0, 0, 0, 0)
 	)
 	
+	neighbors_alt = (
+		(2, 2, 1, 1),
+		(2, 2, 1, 1),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
 	neighbors2 = (
 		(0, 0, 2, 2),
 		(1, 1, 2, 2),
@@ -83,6 +99,22 @@ class Fields(object):
 		(0, 0, 2, 2),
 		(0, 0, 0, 0),
 		(0, 0, 0, 0)
+	)
+	
+	equi = (
+		(1, 0, 2, 3),
+		(1, 4, 2, 0),
+		(1, 4, 5, 5),
+		(0, 0, 5, 5),
+		(6, 6, 0, 0)
+	)
+	
+	equi_alt = (
+		(6, 0, 3, 2),
+		(6, 5, 3, 0),
+		(6, 5, 4, 4),
+		(0, 0, 4, 4),
+		(1, 1, 0, 0)
 	)
 
 class TestState(unittest.TestCase):
@@ -126,6 +158,25 @@ class TestState(unittest.TestCase):
 		succ_fields = set(map(attrgetter("field"), s.get_succ()))
 		self.assertEqual(succ_fields,
 			set([Fields.neighbors2, Fields.neighbors3]))
+		
+	def test_hash_and_equality(self):
+		s = State(Fields.trivial)
+		s2 = State(Fields.trivial)
+		self.assertEqual(s, s2)
+		
+		s3 = State(Fields.trivial2)
+		self.assertNotEqual(s, s3)
+		
+		s4 = State(Fields.trivial_alt)
+		self.assertEqual(s, s4)
+		
+		s5 = State(Fields.neighbors)
+		s6 = State(Fields.neighbors_alt)
+		self.assertEqual(s5, s6)
+		
+		s7 = State(Fields.equi)
+		s8 = State(Fields.equi_alt)
+		self.assertEqual(s7, s8)
 		
 		
 if __name__ == '__main__':
