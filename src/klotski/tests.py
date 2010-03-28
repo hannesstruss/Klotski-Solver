@@ -60,6 +60,30 @@ class Fields(object):
 		(1, 1, 1, 1),
 		(1, 1, 1, 1),
 	)
+	
+	neighbors = (
+		(1, 1, 2, 2),
+		(1, 1, 2, 2),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
+	neighbors2 = (
+		(0, 0, 2, 2),
+		(1, 1, 2, 2),
+		(1, 1, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
+	
+	neighbors3 = (
+		(1, 1, 0, 0),
+		(1, 1, 2, 2),
+		(0, 0, 2, 2),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0)
+	)
 
 class TestState(unittest.TestCase):
 	def test_init(self):
@@ -97,6 +121,11 @@ class TestState(unittest.TestCase):
 		succ_fields = set(map(attrgetter("field"), s.get_succ()))
 		self.assertEqual(succ_fields,
 			set([Fields.trivial2, Fields.trivial3, Fields.trivial5]))
+		
+		s = State(Fields.neighbors)
+		succ_fields = set(map(attrgetter("field"), s.get_succ()))
+		self.assertEqual(succ_fields,
+			set([Fields.neighbors2, Fields.neighbors3]))
 		
 		
 if __name__ == '__main__':
