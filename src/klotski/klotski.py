@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-
 import sys, string, time
 
 from tools import curry
@@ -19,6 +18,8 @@ class State(object):
 		self.parent = None
 		for m, row in enumerate(self.field):
 			for n, cell_content in enumerate(row):
+				if cell_content == 0:
+					continue
 				if cell_content not in self.blocks:
 					self.blocks[cell_content] = []
 				self.blocks[cell_content].append((m, n))
@@ -196,7 +197,5 @@ def test_if_states_are_equivalent(state1, state2):
 			
 		
 if __name__ == '__main__':
-	s = State(puzzles.trail)
-	print s
-	print "..."
+	s = State(puzzles.trivial)
 	walk_solutions(s)
