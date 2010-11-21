@@ -204,21 +204,27 @@ class TestState(unittest.TestCase):
 
 class QueueTest(unittest.TestCase):
 	def test_queue(self):
-		s = State(Fields.only_18_equi1)
-		q = Queue(s)
-		
+		q = Queue()
+		self.assertEqual(len(q), 0)
+		q.push(0)
 		self.assertEqual(len(q), 1)
-		
-		s_pop = q.pop()
-		self.assertEqual(s, s_pop)
+		q.push(1)
+		self.assertEqual(len(q), 2)
+		q.push(2)
+		self.assertEqual(len(q), 3)
+		self.assertEqual(q.pop(), 0)
+		self.assertEqual(len(q), 2)
+		self.assertEqual(q.pop(), 1)
+		self.assertEqual(len(q), 1)
+		self.assertEqual(q.pop(), 2)
 		self.assertEqual(len(q), 0)
-		
-		q.pop()
-		self.assertEqual(len(q), 0)
-		
-		q.push(s)
-		self.assertEqual(q.pop(), s)
 		self.assertEqual(q.pop(), None)
+		self.assertEqual(len(q), 0)
+		q.push(0)
+		self.assertEqual(len(q), 1)
+		self.assertEqual(q.pop(), 0)
+		self.assertEqual(len(q), 0)
+		
 		
 		
 		

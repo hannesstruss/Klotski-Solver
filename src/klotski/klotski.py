@@ -164,7 +164,8 @@ def get_neighbor_cells(cell):
 	return result
 
 def walk_solutions(init_state):
-	s = Stack(init_state)
+	s = Stack()
+	s.push(init_state)
 	visited = set()
 	solutions = []
 	try:
@@ -196,5 +197,5 @@ def test_if_states_are_equivalent(state1, state2):
 			
 		
 if __name__ == '__main__':
-	s = State(puzzles.only_18)
+	s = State(puzzles.red_donkey)
 	walk_solutions(s)

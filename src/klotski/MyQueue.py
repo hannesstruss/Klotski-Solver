@@ -1,22 +1,21 @@
 # -*- encoding: utf-8 -*-
 
 class Queue(object):
-	def __init__(self, initObj):
-		self.first_guard = QueueGuard()
-		self.last_guard = QueueGuard()
+	def __init__(self):
+		self.first_guard = QueueGuard("First")
+		self.last_guard = QueueGuard("Last")
 		
 		self.first_guard.next = self.last_guard
 		self.last_guard.prev = self.first_guard
 		
 		self.count = 0
 		
-		self.push(initObj)
-		
 	def push(self, item):
 		i = QueueItem(item)
 		
 		i.prev = self.first_guard
 		self.first_guard.next.prev = i
+		self.first_guard.next = i
 		
 		self.count += 1	
 	
@@ -25,8 +24,10 @@ class Queue(object):
 			last_item = self.last_guard.prev
 			self.last_guard.prev = last_item.prev
 			
-			self.count -= 1
+			if self.last_guard.prev is self.first_guard:
+				self.first_guard.next = self.last_guard
 			
+			self.count -= 1
 			return last_item.data
 		return None
 	
@@ -34,16 +35,28 @@ class Queue(object):
 		return self.count
 
 class QueueGuard(object):
-	def __init__(self):
+	def __init__(self, name=""):
+		self.name = name
 		self.prev = self
 		self.next = self
+		
+	def __str__(self):
+		return "<Guard %s>" % self.name
 
 class QueueItem(object):
 	def __init__(self, data):
 		self.data = data
 		self.prev = None
 		
+	def __str__(self):
+		return "<Item %s>" % self.data
+		
 if __name__ == '__main__':
-	q = Queue(0)
-	q.pop()
-	q.pop()
+	q = Queue()
+	q.push(0)
+	q.push(1)
+	q.push(2)
+	x = q.pop()
+	x = q.pop()
+	x = q.pop()
+	x = q.pop()
