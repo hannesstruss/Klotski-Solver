@@ -63,6 +63,12 @@ class State(object):
 	def cols(self):
 		return len(self.field[0])
 
+	def __eq__(self, other):
+		return hash(self) == hash(other)
+
+	def __neq__(self, other):
+		return not self.__eq__(other)
+
 	def __hash__(self):
 		rslt = ""
 		
