@@ -11,7 +11,13 @@ class Solver(object):
 		
 	def solve(self):
 		pass
-
+	
+class StateSuccessorFinder(object):
+	"""creates all possible subsequent states from a given initial state"""
+	
+	def get_successors(self, state):
+		return []
+	
 class State(object):
 	def __init__(self, field):
 		self.field = field
