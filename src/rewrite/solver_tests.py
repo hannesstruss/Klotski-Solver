@@ -62,6 +62,10 @@ class TestGetNeighborCells(unittest.TestCase):
 		self.assertEqual(t.get_neighbor_cells((1, 2)),
 			{"u": (0, 2), "r": (1, 3), "d": (2, 2), "l": (1, 1)})
 
+class TestGetMovableDirectionsOfCell(unittest.TestCase):
+	def test_get_movable_directions_of_cell(self):
+		pass
+
 class States(object):
 	state0 = State((
 		(0, 0, 0, 0),

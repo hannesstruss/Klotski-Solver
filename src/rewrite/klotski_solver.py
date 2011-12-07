@@ -21,6 +21,9 @@ class StateSuccessorFinder(object):
 	"""creates all possible subsequent states from a given initial state"""
 	
 	def get_neighbor_cells(self, cell):
+		"""return all the cells around the given one. Only consider directions up, right, down,
+		   left, no diagonal
+		"""
 		fields = DIRECTIONS[:]
 		result = {}
 		m,n = cell
