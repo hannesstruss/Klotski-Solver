@@ -42,7 +42,5 @@ class TestHashCodes(unittest.TestCase):
 		self.assertNotEqual(hash(state1), hash(state3))
 		self.assertNotEqual(hash(state2), hash(state3))
 		
-		
-
 if __name__ == '__main__':
 	unittest.main()
