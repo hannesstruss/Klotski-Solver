@@ -20,6 +20,10 @@ class Solver(object):
 class StateSuccessorFinder(object):
 	"""creates all possible subsequent states from a given initial state"""
 	
+	def __init__(self, state):
+		self.state = state
+	
+	
 	def get_neighbor_cells(self, cell):
 		"""return all the cells around the given one. Only consider directions up, right, down,
 		   left, no diagonal
@@ -32,7 +36,7 @@ class StateSuccessorFinder(object):
 				if ((rm == m) ^ (rn == n)):
 					field = fields[0]
 					fields = fields[1:]
-					if rm >= 0 and rm < M and rn >= 0 and rn < N:
+					if rm >= 0 and rm < self.state.rows and rn >= 0 and rn < self.state.cols:
 						result[field] = (rm,rn)
 					else:
 						result[field] = None
@@ -41,7 +45,7 @@ class StateSuccessorFinder(object):
 	def get_movable_directions_of_cell(self, cell):
 		return set()
 	
-	def get_successors(self, state):
+	def get_successors(self):
 		return set()
 	
 class State(object):
@@ -51,6 +55,14 @@ class State(object):
 	def __init__(self, field):
 		self.field = field
 		
+	@property
+	def rows(self):
+		return len(self.field)
+	
+	@property
+	def cols(self):
+		return len(self.field[0])
+
 	def __hash__(self):
 		rslt = ""
 		

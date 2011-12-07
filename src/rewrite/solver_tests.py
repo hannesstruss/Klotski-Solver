@@ -31,15 +31,12 @@ class TestStateEquality(unittest.TestCase):
 		self.assertNotEqual(States.state1, States.state2_succ1)
 
 class TestStateSuccessors(unittest.TestCase):
-	def setUp(self):
-		self.t = StateSuccessorFinder()
-		
 	def test_successors_count(self):
-		succs = self.t.get_successors(States.state1)
+		succs = StateSuccessorFinder(States.state1).get_successors()
 		self.assertEqual(len(succs), 5)
 		
 	def test_successors_correctness(self):
-		succs = self.t.get_successors(States.state1)
+		succs = StateSuccessorFinder(States.state1).get_successors()
 		self.assertEqual(
 			set([States.state1_succ1, States.state1_succ2, States.state1_succ3, 
 			     States.state1_succ4, States.state1_succ5]),
@@ -48,7 +45,7 @@ class TestStateSuccessors(unittest.TestCase):
 
 class TestGetNeighborCells(unittest.TestCase):		
 	def test_get_neighbor_cells(self):
-		t = StateSuccessorFinder()
+		t = StateSuccessorFinder(States.state0)
 		
 		self.assertEqual(t.get_neighbor_cells((0, 0)),
 			{"u": None, "r": (0, 1), "d": (1, 0), "l": None})
