@@ -18,6 +18,46 @@ class States(object):
 		(0, 0, 0, 0),
 	))
 	
+	state1_succ1 = State((
+		(0, 1, 1, 0),
+		(0, 1, 1, 0),
+		(0, 0, 0, 2),
+		(0, 0, 0, 2),
+		(0, 0, 0, 0),
+	))
+	
+	state1_succ2 = State((
+		(0, 0, 0, 0),
+		(1, 1, 0, 0),
+		(1, 1, 0, 2),
+		(0, 0, 0, 2),
+		(0, 0, 0, 0),
+	))
+	
+	state1_succ3 = State((
+		(1, 1, 0, 0),
+		(1, 1, 0, 2),
+		(0, 0, 0, 2),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+	))
+	
+	state1_succ4 = State((
+		(1, 1, 0, 0),
+		(1, 1, 0, 0),
+		(0, 0, 2, 0),
+		(0, 0, 2, 0),
+		(0, 0, 0, 0),
+	))
+	
+	state1_succ5 = State((
+		(1, 1, 0, 0),
+		(1, 1, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 2),
+		(0, 0, 0, 2),
+	))
+	
 	state2 = State((
 		(2, 2, 0, 0),
 		(2, 2, 0, 0),
@@ -44,9 +84,20 @@ class TestHashCodes(unittest.TestCase):
 		self.assertNotEqual(hash(States.state2), hash(States.state3))
 
 class TestStateSuccessors(unittest.TestCase):
-	def test_successors(self):
-		t = StateSuccessorFinder()
+	def setUp(self):
+		self.t = StateSuccessorFinder()
 		
+	def test_successors_count(self):
+		succs = self.t.get_successors(States.state1)
+		self.assertEqual(len(succs), 5)
+		
+	def test_successors_correctness(self):
+		succs = self.t.get_successors(States.state1)
+		self.assertEqual(
+			set([States.state1_succ1, States.state1_succ2, States.state1_succ3, 
+			     States.state1_succ4, States.state1_succ5]),
+			succs
+		)
 		
 		
 if __name__ == '__main__':
