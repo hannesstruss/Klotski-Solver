@@ -61,7 +61,16 @@ class TestGetNeighborCells(unittest.TestCase):
 
 class TestGetMovableDirectionsOfCell(unittest.TestCase):
 	def test_get_movable_directions_of_cell(self):
-		pass
+		t = StateSuccessorFinder(States.state1)
+		self.assertEqual(t.get_movable_directions_of_cell((0, 0)),
+			set(["r", "d"]))
+		
+		self.assertEqual(t.get_movable_directions_of_cell((2, 3)),
+			set(["l", "u", "d"]))
+		
+		t.state = States.state3
+		self.assertEqual(t.get_movable_directions_of_cell((2, 3)),
+			set(["u", "r", "d", "l"]))
 
 class States(object):
 	state0 = State((
@@ -132,6 +141,14 @@ class States(object):
 		(2, 2, 0, 0),
 		(2, 2, 0, 1),
 		(0, 0, 0, 1), 
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+	))
+	
+	state3 = State((
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 1, 0, 0),
 		(0, 0, 0, 0),
 		(0, 0, 0, 0),
 	))
