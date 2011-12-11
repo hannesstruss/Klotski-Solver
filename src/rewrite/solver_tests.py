@@ -59,17 +59,17 @@ class TestGetNeighborCells(unittest.TestCase):
 		self.assertEqual(t.get_neighbor_cells((1, 2)),
 			{"u": (0, 2), "r": (1, 3), "d": (2, 2), "l": (1, 1)})
 
-class TestGetMovableDirectionsOfCell(unittest.TestCase):
-	def test_get_movable_directions_of_cell(self):
+class TestGetMovableDirectionsOfBlock(unittest.TestCase):
+	def test_get_movable_directions_of_block(self):
 		t = StateSuccessorFinder(States.state1)
-		self.assertEqual(t.get_movable_directions_of_cell((0, 0)),
+		self.assertEqual(t.get_movable_directions_of_block((0, 0)),
 			set(["r", "d"]))
 		
-		self.assertEqual(t.get_movable_directions_of_cell((2, 3)),
+		self.assertEqual(t.get_movable_directions_of_block((2, 3)),
 			set(["l", "u", "d"]))
 		
 		t = StateSuccessorFinder(States.state3)
-		self.assertEqual(t.get_movable_directions_of_cell((2, 1)),
+		self.assertEqual(t.get_movable_directions_of_block((2, 1)),
 			set(["u", "r", "d", "l"]))
 
 class TestGetMovableBlocks(unittest.TestCase):

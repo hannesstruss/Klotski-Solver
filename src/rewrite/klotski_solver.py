@@ -44,7 +44,7 @@ class StateSuccessorFinder(object):
 						result[field] = None
 		return result
 	
-	def get_movable_directions_of_cell(self, cell):
+	def get_movable_directions_of_block(self, cell):
 		"""return a set of directions in which the block at 'cell' could be moved"""
 		directions = set(DIRECTIONS)
 		cell_content = self.get_block(cell)
