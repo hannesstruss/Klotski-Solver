@@ -6,9 +6,11 @@ Created on Nov 21, 2010
 '''
 
 from collections import defaultdict
-from operator import itemgetter
 
 DIRECTIONS = ["u", "l", "r", "d"]
+DIRECTION_TUPLES = {
+	"u": (-1, 0), "l": (0, -1), "r": (0, 1), "d": (1, 0),
+}
 # rows/cols
 M = 5
 N = 4
@@ -76,14 +78,31 @@ class StateSuccessorFinder(object):
 		"""return a new state, with the block 'block_id' moved one step in 'direction'
 		   Requires that the block is actually movable
 		"""
-		return None
+		
+		rows = []
+		
+		for row_nr in xrange(self.state.rows):
+			row = []
+			for col_nr in xrange(self.state.cols):
+				row.append(self.state.field[row_nr][col_nr])
+			rows.append(row)
+			
+		for cell in self.state.blocks[block_id]:
+			rows[cell[0]][cell[1]] = 0
+			
+		for cell in self.state.blocks[block_id]:
+			moved_cell = cell[0] + DIRECTION_TUPLES[direction][0], cell[1] + DIRECTION_TUPLES[direction][1]
+			rows[moved_cell[0]][moved_cell[1]] = block_id
+				
+		result = State(tuple(map(tuple, rows)))
+		return result
 	
 	def get_successors(self):
-		result = []
+		result = set()
 		
 		for block_id in self.state.blocks:
 			for direction in self.get_movable_directions_of_block(block_id):
-				result.append(self.move_block(block_id, direction))
+				result.add(self.move_block(block_id, direction))
 		
 		return result
 	
@@ -122,6 +141,9 @@ class State(object):
 
 	def __neq__(self, other):
 		return not self.__eq__(other)
+
+	def __repr__(self):
+		return "\nState(%s)\n" % ("\n".join(map(str, self.field)),)
 
 	def __hash__(self):
 		rslt = ""
