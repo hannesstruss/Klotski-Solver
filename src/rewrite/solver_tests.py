@@ -69,7 +69,7 @@ class TestGetMovableDirectionsOfCell(unittest.TestCase):
 			set(["l", "u", "d"]))
 		
 		t.state = States.state3
-		self.assertEqual(t.get_movable_directions_of_cell((2, 3)),
+		self.assertEqual(t.get_movable_directions_of_cell((2, 1)),
 			set(["u", "r", "d", "l"]))
 
 class States(object):
