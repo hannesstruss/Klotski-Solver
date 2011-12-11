@@ -68,7 +68,8 @@ class StateSuccessorFinder(object):
 	
 class State(object):
 	"""A snapshot of a klotski board. Its field is a tuple of rows, which are tuples of cells.
-	   Thus, cells are written as (row, col)
+	   Thus, cells are written as (row, col). It should be considered as immutable. All its 
+	   methods are without side effects.
 	"""
 	def __init__(self, field):
 		self.field = field
