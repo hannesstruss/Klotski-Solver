@@ -17,17 +17,31 @@ N = 4
 
 class Solver(object):
 	def __init__(self, state):
-		self.atate = state
+		self.state = state
 		
 	def solve(self):
+		finder = StateSuccessorFinder(None)
 		visited = {}
 		queue = [self.state]
 		while len(queue):
 			current = queue.pop()
-			for successor in current.get_successors():
-				pass
-		
-		pass
+			
+			# TODO: find a better API for setting new states. This has a hacky smell.
+			finder.state = current
+			for successor in finder.get_successors():
+				if successor.is_solution:
+					return successor
+				else:
+					queue.insert(0, successor)
+			visited[current] = current
+
+class SolutionPrinter(object):	
+	def print_solution(self, state):
+		print state
+		parent = state.parent
+		while parent is not None:
+			print parent
+			parent = parent.parent
 	
 class StateSuccessorFinder(object):
 	"""creates all possible subsequent states from a given initial state. Not thread-safe"""
@@ -102,6 +116,8 @@ class StateSuccessorFinder(object):
 			rows[moved_cell[0]][moved_cell[1]] = block_id
 				
 		result = State(tuple(map(tuple, rows)))
+		
+		result.parent = self.state
 		return result
 	
 	def get_successors(self):
@@ -120,6 +136,7 @@ class State(object):
 	"""
 	def __init__(self, field):
 		self.field = field
+		self.parent = None
 		self._blocks = None
 		
 	@property
@@ -150,7 +167,7 @@ class State(object):
 		return not self.__eq__(other)
 
 	def __repr__(self):
-		return "\nState(%s)\n" % ("\n".join(map(str, self.field)),)
+		return "\nState(\n%s)\n" % ("\n".join(map(str, self.field)),)
 
 	@property
 	def is_solution(self):
@@ -171,3 +188,15 @@ class State(object):
 		
 		return rslt.__hash__()
 	
+if __name__ == '__main__':
+	printer = SolutionPrinter()
+	solver = Solver(State((
+		(1, 1, 0, 0),
+		(1, 1, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+	)))
+	
+	result = solver.solve()
+	printer.print_solution(result)
