@@ -64,6 +64,9 @@ class TestStateSuccessors(unittest.TestCase):
 		succs = StateSuccessorFinder(States.state3).get_successors()
 		self.assertEqual(len(succs), 4)
 		
+		succs = StateSuccessorFinder(States.state_full).get_successors()
+		self.assertEqual(len(succs), 0)
+		
 	def test_successors_correctness(self):
 		succs = StateSuccessorFinder(States.state1).get_successors()
 		self.assertEqual(
@@ -210,6 +213,14 @@ class States(object):
 		(0, 0, 0, 0),
 		(0, 0, 0, 0),
 		(0, 0, 0, 0),
+	))
+	
+	state_full = State((
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
+		(1, 1, 1, 1),
 	))
 	
 if __name__ == '__main__':
