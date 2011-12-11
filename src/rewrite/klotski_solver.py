@@ -16,14 +16,21 @@ M = 5
 N = 4
 
 class Solver(object):
-	def __init__(self, puzzle):
-		self.puzzle = puzzle
+	def __init__(self, state):
+		self.atate = state
 		
 	def solve(self):
+		visited = {}
+		queue = [self.state]
+		while len(queue):
+			current = queue.pop()
+			for successor in current.get_successors():
+				pass
+		
 		pass
 	
 class StateSuccessorFinder(object):
-	"""creates all possible subsequent states from a given initial state"""
+	"""creates all possible subsequent states from a given initial state. Not thread-safe"""
 	
 	def __init__(self, state):
 		self.state = state
@@ -144,6 +151,11 @@ class State(object):
 
 	def __repr__(self):
 		return "\nState(%s)\n" % ("\n".join(map(str, self.field)),)
+
+	@property
+	def is_solution(self):
+		# TODO: this doesn't work for arbitrary widths/heights
+		return self.field[4][1] == self.field[4][2] == 1
 
 	def __hash__(self):
 		rslt = ""

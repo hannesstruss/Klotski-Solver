@@ -48,6 +48,12 @@ class TestGetBlocks(unittest.TestCase):
 			3: set([(1, 1)]),
 			4: set([(1, 0)]),
 		})
+		
+class TestIsSolution(unittest.TestCase):
+	def test_is_solution(self):
+		self.assertFalse(States.state0.is_solution)
+		
+		self.assertTrue(States.state_solution.is_solution)
 
 # Tests for StateSuccessorFinder
 class TestStateSuccessors(unittest.TestCase):
@@ -221,6 +227,14 @@ class States(object):
 		(1, 1, 1, 1),
 		(1, 1, 1, 1),
 		(1, 1, 1, 1),
+	))
+	
+	state_solution = State((
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+		(0, 1, 1, 0),
 	))
 	
 if __name__ == '__main__':
