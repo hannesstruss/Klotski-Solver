@@ -23,6 +23,8 @@ class StateSuccessorFinder(object):
 	def __init__(self, state):
 		self.state = state
 	
+	def get_block(self, cell):
+		return self.state.field[cell[0]][cell[1]]
 	
 	def get_neighbor_cells(self, cell):
 		"""return all the cells around the given one. Only consider directions up, right, down,
@@ -43,6 +45,20 @@ class StateSuccessorFinder(object):
 		return result
 	
 	def get_movable_directions_of_cell(self, cell):
+		"""return a set of directions in which the block at 'cell' could be moved"""
+		directions = set(DIRECTIONS)
+		cell_content = self.get_block(cell)
+		for direction, neighbor in self.get_neighbor_cells(cell).iteritems():
+			if neighbor is not None:
+				neighbor_content = self.get_block(neighbor) 
+				if not (neighbor_content == cell_content or neighbor_content == 0):
+					directions.remove(direction)
+			else: 
+				directions.remove(direction)
+		return directions
+	
+	def get_movable_blocks(self):
+		"""return a set of block ids whose blocks are movable"""
 		return set()
 	
 	def get_successors(self):
