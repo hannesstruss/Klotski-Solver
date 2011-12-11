@@ -6,6 +6,7 @@ Created on Nov 21, 2010
 '''
 
 from collections import defaultdict
+from operator import itemgetter
 
 DIRECTIONS = ["u", "l", "r", "d"]
 # rows/cols
@@ -71,9 +72,18 @@ class StateSuccessorFinder(object):
 		
 		return result
 	
+	def move_block(self, block_id, direction):
+		"""return a new state, with the block 'block_id' moved one step in 'direction'"""
+		return None
+	
 	def get_successors(self):
+		result = []
 		
-		return set()
+		for block_id in self.state.blocks:
+			for direction in self.get_movable_directions_of_block(block_id):
+				result.append(self.move_block(block_id, direction))
+		
+		return result
 	
 class State(object):
 	"""A snapshot of a klotski board. Its field is a tuple of rows, which are tuples of cells.

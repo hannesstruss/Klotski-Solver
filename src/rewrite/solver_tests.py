@@ -55,6 +55,15 @@ class TestStateSuccessors(unittest.TestCase):
 		succs = StateSuccessorFinder(States.state1).get_successors()
 		self.assertEqual(len(succs), 5)
 		
+		succs = StateSuccessorFinder(States.state0).get_successors()
+		self.assertEqual(len(succs), 0)
+		
+		succs = StateSuccessorFinder(States.state4).get_successors()
+		self.assertEqual(len(succs), 4)
+		
+		succs = StateSuccessorFinder(States.state3).get_successors()
+		self.assertEqual(len(succs), 4)
+		
 	def test_successors_correctness(self):
 		succs = StateSuccessorFinder(States.state1).get_successors()
 		self.assertEqual(
