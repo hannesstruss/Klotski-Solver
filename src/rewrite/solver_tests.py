@@ -9,11 +9,8 @@ import unittest
 
 from klotski_solver import State, StateSuccessorFinder, M, N
 
-
+# Tests for State
 class TestHashCodes(unittest.TestCase):
-	def setUp(self):
-		pass
-	
 	def test_hash(self):
 		self.assertEqual(hash(States.state1), hash(States.state2))
 		self.assertNotEqual(hash(States.state1), hash(States.state2_succ1))
@@ -29,7 +26,30 @@ class TestStateEquality(unittest.TestCase):
 	def test_inequality(self):
 		self.assertNotEqual(States.state0, States.state1)
 		self.assertNotEqual(States.state1, States.state2_succ1)
+		
+class TestGetBlocks(unittest.TestCase):
+	def clone_state(self, state):
+		return State(state.field)
+	
+	def test_get_blocks(self):
+		state = self.clone_state(States.state0)
+		self.assertEqual(state.get_blocks(), {})
+		
+		state = self.clone_state(States.state1)
+		self.assertEqual(state.get_blocks(), {
+			1: set([(0, 0), (0, 1), (1, 0), (1, 1)]),
+			2: set([(2, 3), (3, 3)]),
+		})
+		
+		state = self.clone_state(States.state4)
+		self.assertEqual(state.get_blocks(), {
+			1: set([(0, 0)]),
+			2: set([(0, 1)]),
+			3: set([(1, 1)]),
+			4: set([(1, 0)]),
+		})
 
+# Tests for StateSuccessorFinder
 class TestStateSuccessors(unittest.TestCase):
 	def test_successors_count(self):
 		succs = StateSuccessorFinder(States.state1).get_successors()

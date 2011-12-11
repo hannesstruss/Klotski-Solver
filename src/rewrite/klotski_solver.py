@@ -5,6 +5,8 @@ Created on Nov 21, 2010
 @author: hannes
 '''
 
+from collections import defaultdict
+
 DIRECTIONS = ["u", "l", "r", "d"]
 # rows/cols
 M = 5
@@ -73,6 +75,7 @@ class State(object):
 	"""
 	def __init__(self, field):
 		self.field = field
+		self.blocks = None
 		
 	@property
 	def rows(self):
@@ -81,6 +84,18 @@ class State(object):
 	@property
 	def cols(self):
 		return len(self.field[0])
+
+	def get_blocks(self):
+		"""return a list of sets of block cells. the list index is equal to the block id"""
+		if self.blocks is None:
+			self.blocks = defaultdict(lambda: set())
+			for m in xrange(self.rows):
+				for n in xrange(self.cols):
+					content = self.field[m][n]
+					if content != 0:
+						self.blocks[content].add((m, n))
+				
+		return self.blocks
 
 	def __eq__(self, other):
 		return hash(self) == hash(other)
