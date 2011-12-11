@@ -80,7 +80,10 @@ class TestStateSuccessors(unittest.TestCase):
 			     States.state1_succ4, States.state1_succ5]),
 			succs
 		)
-
+		
+		succs = StateSuccessorFinder(States.state5).get_successors()
+		self.assertTrue(States.state5_succ1 in succs)
+		
 class TestGetNeighborCells(unittest.TestCase):		
 	def test_get_neighbor_cells(self):
 		t = StateSuccessorFinder(States.state0)
@@ -235,6 +238,22 @@ class States(object):
 		(0, 0, 0, 0),
 		(0, 0, 0, 0),
 		(0, 1, 1, 0),
+	))
+	
+	state5 = State((
+		(2, 1, 1, 3),
+		(2, 1, 1, 3),
+		(4, 0, 0, 8),
+		(4, 5, 5, 6),
+		(9, 7, 10, 6),
+	))
+	
+	state5_succ1 = State((
+		(2, 0, 0, 3),
+		(2, 1, 1, 3),
+		(4, 1, 1, 8),
+		(4, 5, 5, 6),
+		(9, 7, 10, 6),
 	))
 	
 if __name__ == '__main__':
