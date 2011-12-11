@@ -68,9 +68,20 @@ class TestGetMovableDirectionsOfCell(unittest.TestCase):
 		self.assertEqual(t.get_movable_directions_of_cell((2, 3)),
 			set(["l", "u", "d"]))
 		
-		t.state = States.state3
+		t = StateSuccessorFinder(States.state3)
 		self.assertEqual(t.get_movable_directions_of_cell((2, 1)),
 			set(["u", "r", "d", "l"]))
+
+class TestGetMovableBlocks(unittest.TestCase):
+	def test_get_movable_blocks(self):
+		t = StateSuccessorFinder(States.state0)
+		self.assertEqual(t.get_movable_blocks(), set())
+		
+		t = StateSuccessorFinder(States.state1)
+		self.assertEqual(t.get_movable_blocks(), set([1, 2]))
+		
+		t = StateSuccessorFinder(States.state4)
+		self.assertEqual(t.get_movable_blocks(), set([2, 3, 4]))
 
 class States(object):
 	state0 = State((
@@ -149,6 +160,14 @@ class States(object):
 		(0, 0, 0, 0),
 		(0, 0, 0, 0),
 		(0, 1, 0, 0),
+		(0, 0, 0, 0),
+		(0, 0, 0, 0),
+	))
+	
+	state4 = State((
+		(1, 2, 0, 0),
+		(4, 3, 0, 0),
+		(0, 0, 0, 0),
 		(0, 0, 0, 0),
 		(0, 0, 0, 0),
 	))
