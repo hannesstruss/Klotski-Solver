@@ -15,15 +15,15 @@ N = 4
 class State(object):
 	def __init__(self, field):
 		self.field = tuple(map(tuple, field))
-		self.blocks = {}
+		self._blocks = {}
 		self.parent = None
 		for m, row in enumerate(self.field):
 			for n, cell_content in enumerate(row):
 				if cell_content == 0:
 					continue
-				if cell_content not in self.blocks:
-					self.blocks[cell_content] = []
-				self.blocks[cell_content].append((m, n))
+				if cell_content not in self._blocks:
+					self._blocks[cell_content] = []
+				self._blocks[cell_content].append((m, n))
 	
 	def __eq__(self, other):
 		return hash(other) == hash(self)
@@ -57,7 +57,7 @@ class State(object):
 	
 	def get_block_cells(self, content):
 		"""return all cells whose content is 'content'"""
-		return self.blocks.get(content, [])[:]
+		return self._blocks.get(content, [])[:]
 	
 	def get_depth(self):
 		depth = 1
@@ -89,7 +89,7 @@ class State(object):
 	def get_movable_blocks(self):
 		result = []
 		
-		for i in xrange(1, len(self.blocks) + 1):
+		for i in xrange(1, len(self._blocks) + 1):
 			directions = self.get_movable_directions_of_block(i)
 			if directions:
 				result.append((i, directions))

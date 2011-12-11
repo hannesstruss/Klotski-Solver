@@ -137,14 +137,14 @@ class Fields(object):
 class TestState(unittest.TestCase):
 	def test_init(self):
 		s = State(Fields.trivial)
-		self.assertEqual(len(s.blocks), 1)
+		self.assertEqual(len(s._blocks), 1)
 		self.assertEqual(s.field, Fields.trivial)
 		
 		s = State(Fields.blocked1)
-		self.assertEqual(len(s.blocks), 3)
+		self.assertEqual(len(s._blocks), 3)
 		
 		s = State(Fields.blocked2)
-		self.assertEqual(len(s.blocks), 1)
+		self.assertEqual(len(s._blocks), 1)
 		
 	def test_get_movable_directions_of_block(self):
 		s = State(Fields.trivial)

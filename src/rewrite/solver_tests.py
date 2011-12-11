@@ -33,16 +33,16 @@ class TestGetBlocks(unittest.TestCase):
 	
 	def test_get_blocks(self):
 		state = self.clone_state(States.state0)
-		self.assertEqual(state.get_blocks(), {})
+		self.assertEqual(state.blocks, {})
 		
 		state = self.clone_state(States.state1)
-		self.assertEqual(state.get_blocks(), {
+		self.assertEqual(state.blocks, {
 			1: set([(0, 0), (0, 1), (1, 0), (1, 1)]),
 			2: set([(2, 3), (3, 3)]),
 		})
 		
 		state = self.clone_state(States.state4)
-		self.assertEqual(state.get_blocks(), {
+		self.assertEqual(state.blocks, {
 			1: set([(0, 0)]),
 			2: set([(0, 1)]),
 			3: set([(1, 1)]),

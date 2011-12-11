@@ -60,7 +60,7 @@ class StateSuccessorFinder(object):
 		return directions
 	
 	def get_movable_blocks(self):
-		"""return a set of block ids whose blocks are movable, paired with the directions
+		"""return a set of block ids whose _blocks are movable, paired with the directions
 		   the block can be moved to"""
 		return set()
 	
@@ -75,7 +75,7 @@ class State(object):
 	"""
 	def __init__(self, field):
 		self.field = field
-		self.blocks = None
+		self._blocks = None
 		
 	@property
 	def rows(self):
@@ -85,17 +85,18 @@ class State(object):
 	def cols(self):
 		return len(self.field[0])
 
-	def get_blocks(self):
+	@property
+	def blocks(self):
 		"""return a list of sets of block cells. the list index is equal to the block id"""
-		if self.blocks is None:
-			self.blocks = defaultdict(lambda: set())
+		if self._blocks is None:
+			self._blocks = defaultdict(lambda: set())
 			for m in xrange(self.rows):
 				for n in xrange(self.cols):
 					content = self.field[m][n]
 					if content != 0:
-						self.blocks[content].add((m, n))
+						self._blocks[content].add((m, n))
 				
-		return self.blocks
+		return self._blocks
 
 	def __eq__(self, other):
 		return hash(self) == hash(other)
