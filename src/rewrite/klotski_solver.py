@@ -192,7 +192,7 @@ class State(object):
 if __name__ == '__main__':
 	import puzzles
 	printer = SolutionPrinter()
-	solver = Solver(State(puzzles.trivial))
+	solver = Solver(State(puzzles.red_donkey))
 	
 	result = solver.solve()
 	printer.print_solution(result)
