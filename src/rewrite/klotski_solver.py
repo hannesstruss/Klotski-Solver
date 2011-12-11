@@ -73,7 +73,9 @@ class StateSuccessorFinder(object):
 		return result
 	
 	def move_block(self, block_id, direction):
-		"""return a new state, with the block 'block_id' moved one step in 'direction'"""
+		"""return a new state, with the block 'block_id' moved one step in 'direction'
+		   Requires that the block is actually movable
+		"""
 		return None
 	
 	def get_successors(self):
