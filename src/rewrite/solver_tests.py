@@ -85,6 +85,18 @@ class TestGetMovableDirectionsOfBlock(unittest.TestCase):
 		self.assertEqual(t.get_movable_directions_of_block((0, 0)),
 			set(["r", "d"]))
 		
+		self.assertEqual(t.get_movable_directions_of_block((0, 0)),
+			t.get_movable_directions_of_block((1, 0)))
+		
+		self.assertEqual(t.get_movable_directions_of_block((0, 0)),
+			t.get_movable_directions_of_block((1, 1)))
+		
+		self.assertEqual(t.get_movable_directions_of_block((0, 0)),
+			t.get_movable_directions_of_block((0, 1)))
+		
+		self.assertEqual(t.get_movable_directions_of_block((0, 0)),
+			t.get_movable_directions_of_block((0, 0)))
+		
 		self.assertEqual(t.get_movable_directions_of_block((2, 3)),
 			set(["l", "u", "d"]))
 		
