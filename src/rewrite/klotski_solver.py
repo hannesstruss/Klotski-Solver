@@ -46,17 +46,18 @@ class StateSuccessorFinder(object):
 						result[field] = None
 		return result
 	
-	def get_movable_directions_of_block(self, cell):
-		"""return a set of directions in which the block at 'cell' could be moved"""
+	def get_movable_directions_of_block(self, block_id):
+		"""return a set of directions in which the block with the given id could be moved"""
 		directions = set(DIRECTIONS)
-		cell_content = self.get_block(cell)
-		for direction, neighbor in self.get_neighbor_cells(cell).iteritems():
-			if neighbor is not None:
-				neighbor_content = self.get_block(neighbor) 
-				if not (neighbor_content == cell_content or neighbor_content == 0):
+		cells = self.state.blocks[block_id]
+		for cell in cells:
+			for direction, neighbor in self.get_neighbor_cells(cell).iteritems():
+				if neighbor is not None:
+					neighbor_content = self.get_block(neighbor) 
+					if neighbor_content != block_id and neighbor_content != 0 and direction in directions:
+						directions.remove(direction)
+				elif direction in directions: 
 					directions.remove(direction)
-			else: 
-				directions.remove(direction)
 		return directions
 	
 	def get_movable_blocks(self):
