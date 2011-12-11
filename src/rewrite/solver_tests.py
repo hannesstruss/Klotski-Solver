@@ -78,10 +78,21 @@ class TestGetMovableBlocks(unittest.TestCase):
 		self.assertEqual(t.get_movable_blocks(), set())
 		
 		t = StateSuccessorFinder(States.state1)
-		self.assertEqual(t.get_movable_blocks(), set([1, 2]))
+		self.assertEqual(t.get_movable_blocks(), set([
+			(1, "r"),
+			(1, "d"),
+			(2, "u"),
+			(2, "l"),
+			(2, "d"),
+		]))
 		
 		t = StateSuccessorFinder(States.state4)
-		self.assertEqual(t.get_movable_blocks(), set([2, 3, 4]))
+		self.assertEqual(t.get_movable_blocks(), set([
+			(4, "d"),
+			(3, "d"),
+			(3, "r"),
+			(2, "r"),
+		]))
 
 class States(object):
 	state0 = State((

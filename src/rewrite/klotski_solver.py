@@ -58,10 +58,12 @@ class StateSuccessorFinder(object):
 		return directions
 	
 	def get_movable_blocks(self):
-		"""return a set of block ids whose blocks are movable"""
+		"""return a set of block ids whose blocks are movable, paired with the directions
+		   the block can be moved to"""
 		return set()
 	
 	def get_successors(self):
+		
 		return set()
 	
 class State(object):
