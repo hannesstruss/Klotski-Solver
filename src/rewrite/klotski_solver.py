@@ -25,15 +25,16 @@ class Solver(object):
 		queue = [self.state]
 		while len(queue):
 			current = queue.pop()
-			
-			# TODO: find a better API for setting new states. This has a hacky smell.
-			finder.state = current
-			for successor in finder.get_successors():
-				if successor.is_solution:
-					return successor
-				else:
-					queue.insert(0, successor)
-			visited[current] = current
+			if current not in visited:
+				visited[current] = current
+				
+				# TODO: find a better API for setting new states. This has a hacky smell.
+				finder.state = current
+				for successor in finder.get_successors():
+					if successor.is_solution:
+						return successor
+					else:
+						queue.insert(0, successor)
 
 class SolutionPrinter(object):	
 	def print_solution(self, state):
@@ -189,14 +190,9 @@ class State(object):
 		return rslt.__hash__()
 	
 if __name__ == '__main__':
+	import puzzles
 	printer = SolutionPrinter()
-	solver = Solver(State((
-		(1, 1, 0, 0),
-		(1, 1, 0, 0),
-		(0, 0, 0, 0),
-		(0, 0, 0, 0),
-		(0, 0, 0, 0),
-	)))
+	solver = Solver(State(puzzles.trivial))
 	
 	result = solver.solve()
 	printer.print_solution(result)
