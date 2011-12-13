@@ -24,9 +24,12 @@ class Solver(object):
 		visited = {}
 		queue = [self.state]
 		checked = 0
+		result = None
 		while len(queue):
+			if result is not None: break
+			
 			current = queue.pop()
-			if current not in visited:
+			if current not in visited and current.get_mirrored_state() not in visited:
 				checked += 1
 				visited[current] = current
 				
@@ -34,18 +37,23 @@ class Solver(object):
 				finder.state = current
 				for successor in finder.get_successors():
 					if successor.is_solution:
-						return successor
+						result = successor
+						break
 					else:
 						queue.insert(0, successor)
-		print checked
+		#print "Ende:", checked
+		return result
 
 class SolutionPrinter(object):	
 	def print_solution(self, state):
 		print state
 		parent = state.parent
+		steps = 0
 		while parent is not None:
+			steps += 1
 			print parent
 			parent = parent.parent
+		print "Steps:", steps
 	
 class StateSuccessorFinder(object):
 	"""creates all possible subsequent states from a given initial state. Not thread-safe"""
@@ -195,6 +203,7 @@ class State(object):
 		return hash(self.get_block_cells())
 	
 if __name__ == '__main__':
+	print "SOLVING!"
 	import puzzles
 	printer = SolutionPrinter()
 	solver = Solver(State(puzzles.red_donkey))
