@@ -23,9 +23,11 @@ class Solver(object):
 		finder = StateSuccessorFinder(None)
 		visited = {}
 		queue = [self.state]
+		checked = 0
 		while len(queue):
 			current = queue.pop()
 			if current not in visited:
+				checked += 1
 				visited[current] = current
 				
 				# TODO: find a better API for setting new states. This has a hacky smell.
@@ -35,6 +37,7 @@ class Solver(object):
 						return successor
 					else:
 						queue.insert(0, successor)
+		print checked
 
 class SolutionPrinter(object):	
 	def print_solution(self, state):
@@ -150,7 +153,7 @@ class State(object):
 
 	@property
 	def blocks(self):
-		"""return a list of sets of block cells. the list index is equal to the block id"""
+		"""returns a dictionary which maps block ids to a set of cells"""
 		if self._blocks is None:
 			self._blocks = defaultdict(lambda: set())
 			for m in xrange(self.rows):
@@ -175,19 +178,14 @@ class State(object):
 		# TODO: this doesn't work for arbitrary widths/heights
 		return self.field[4][1] == self.field[4][2] == 1
 
+	def get_block_cells(self):
+		blocks = []
+		for cell_set in self.blocks.values():
+			blocks.append(frozenset(cell_set))
+		return frozenset(blocks)
+
 	def __hash__(self):
-		rslt = ""
-		
-		content_map = {}
-		use_content = 0
-		for row in self.field:
-			for content in row:
-				if content not in content_map:
-					content_map[content] = use_content
-					use_content += 1
-				rslt += str(content_map[content])
-		
-		return rslt.__hash__()
+		return hash(self.get_block_cells())
 	
 if __name__ == '__main__':
 	import puzzles

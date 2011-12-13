@@ -15,6 +15,12 @@ class TestHashCodes(unittest.TestCase):
 		self.assertEqual(hash(States.state1), hash(States.state2))
 		self.assertNotEqual(hash(States.state1), hash(States.state2_succ1))
 		self.assertNotEqual(hash(States.state2), hash(States.state2_succ1))
+		self.assertNotEqual(hash(States.state6), hash(States.state6_variation))
+
+class TestGetBlockCells(unittest.TestCase):
+	def test_get_block_cells(self):
+		self.assertEqual(States.state0.get_block_cells(), set())
+		self.assertEqual(States.state1.get_block_cells(), States.state2.get_block_cells())
 
 class TestStateEquality(unittest.TestCase):
 	def test_equality(self):
@@ -248,10 +254,34 @@ class States(object):
 		(9, 7, 10, 6),
 	))
 	
+	state5_mirrored = State((
+		(3, 1, 1, 2),
+		(3, 1, 1, 2),
+		(8, 0, 0, 4),
+		(6, 5, 5, 4),
+		(6, 10, 7, 9),
+	))
+	
 	state5_succ1 = State((
 		(2, 0, 0, 3),
 		(2, 1, 1, 3),
 		(4, 1, 1, 8),
+		(4, 5, 5, 6),
+		(9, 7, 10, 6),
+	))
+	
+	state6 = State((
+		(2, 1, 11, 3),
+		(2, 1, 1, 3),
+		(4, 0, 0, 8),
+		(4, 5, 5, 6),
+		(9, 7, 10, 6),
+	))
+
+	state6_variation = State((
+		(2, 11, 1, 3),
+		(2, 1, 1, 3),
+		(4, 0, 0, 8),
 		(4, 5, 5, 6),
 		(9, 7, 10, 6),
 	))
