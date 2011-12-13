@@ -25,9 +25,7 @@ class Solver(object):
 		queue = [self.state]
 		checked = 0
 		result = None
-		while len(queue):
-			if result is not None: break
-			
+		while len(queue) and not result:
 			current = queue.pop()
 			if current not in visited:
 				mirrored = current.get_mirrored_state()
