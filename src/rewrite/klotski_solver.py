@@ -173,6 +173,13 @@ class State(object):
 	def __repr__(self):
 		return "\nState(\n%s)\n" % ("\n".join(map(str, self.field)),)
 
+	def get_mirrored_state(self):
+		"""returns a state whose field equals this one's, mirrored horizontally"""
+		rows = []
+		for row in self.field:
+			rows.append(row[::-1])
+		return State(tuple(rows))
+
 	@property
 	def is_solution(self):
 		# TODO: this doesn't work for arbitrary widths/heights

@@ -22,6 +22,12 @@ class TestGetBlockCells(unittest.TestCase):
 		self.assertEqual(States.state0.get_block_cells(), set())
 		self.assertEqual(States.state1.get_block_cells(), States.state2.get_block_cells())
 
+class TestGetMirroredState(unittest.TestCase):
+	def test_get_mirrored_state(self):
+		self.assertEqual(States.state0.field, States.state0.get_mirrored_state().field)
+		self.assertEqual(States.state1.get_mirrored_state().field, States.state1_mirrored.field)
+		self.assertEqual(States.state5.get_mirrored_state().field, States.state5_mirrored.field)
+
 class TestStateEquality(unittest.TestCase):
 	def test_equality(self):
 		self.assertEqual(States.state1, States.state1) #identity
@@ -155,6 +161,14 @@ class States(object):
 		(1, 1, 0, 0),
 		(0, 0, 0, 2),
 		(0, 0, 0, 2),
+		(0, 0, 0, 0),
+	))
+	
+	state1_mirrored = State((
+		(0, 0, 1, 1),
+		(0, 0, 1, 1),
+		(2, 0, 0, 0),
+		(2, 0, 0, 0),
 		(0, 0, 0, 0),
 	))
 	
