@@ -29,9 +29,11 @@ class Solver(object):
 			if result is not None: break
 			
 			current = queue.pop()
-			if current not in visited and current.get_mirrored_state() not in visited:
+			if current not in visited:
+				mirrored = current.get_mirrored_state()
 				checked += 1
 				visited[current] = current
+				visited[mirrored] = mirrored
 				
 				# TODO: find a better API for setting new states. This has a hacky smell.
 				finder.state = current
