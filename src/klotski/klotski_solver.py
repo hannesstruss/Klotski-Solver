@@ -44,16 +44,21 @@ class Solver(object):
 		#print "Ende:", checked
 		return result
 
-class SolutionPrinter(object):	
+class SolutionPrinter(object):
+	# TODO: if two consecutive steps move the same block in the same direction, count them as one
 	def print_solution(self, state):
-		print state
+		# use an array, because Python 2.x doesn't have nonlocal
+		index = [-1]
+		def str_index(s):
+			index[0] += 1
+			return "%s: %s" % (index[0], s)
+		
+		steps = [state]
 		parent = state.parent
-		steps = 0
 		while parent is not None:
-			steps += 1
-			print parent
+			steps.append(parent)
 			parent = parent.parent
-		print "Steps:", steps
+		print "\n".join(map(str_index, steps[::-1]))
 	
 class StateSuccessorFinder(object):
 	"""creates all possible subsequent states from a given initial state. Not thread-safe"""
